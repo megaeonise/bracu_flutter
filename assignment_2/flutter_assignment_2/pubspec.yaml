@@ -1,0 +1,27 @@
+name: flutter_application_2
+description: "A new Flutter project."
+publish_to: 'none'
+version: 0.1.0
+
+environment:
+  sdk: ^3.8.1
+
+dependencies:
+  flutter:
+    sdk: flutter
+  fbroadcast: ^2.0.0
+  battery_plus: 6.0.0
+  image: ^4.5.4
+  file_picker: ^8.0.7
+  video_player: ^2.10.0
+  mime: ^2.0.0
+  chewie: ^1.12.1
+  just_audio: ^0.9.44
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+  flutter_lints: ^5.0.0
+
+flutter:
+  uses-material-design: true
