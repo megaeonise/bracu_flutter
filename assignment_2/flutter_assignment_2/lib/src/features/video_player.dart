@@ -30,6 +30,7 @@ class _VideoPlayerScreenState extends State<VideoPlayerScreen> {
   late Chewie playerWidget;
   final videoUrlController = TextEditingController();
   String filePath = '';
+  bool pickerActive = false;
 
   var url = '';
   String menuValue = 'Internet';
@@ -47,7 +48,7 @@ class _VideoPlayerScreenState extends State<VideoPlayerScreen> {
   }
 
   void setVideoURL() {
-    if (mounted) {
+    if (mounted && url!='') {
       setState(() {
         url = videoUrlController.text;
         controller = VideoPlayerController.networkUrl(
@@ -69,7 +70,9 @@ class _VideoPlayerScreenState extends State<VideoPlayerScreen> {
   }
 
   void setVideoPath() async {
+    pickerActive = true;
     FilePickerResult? result = await FilePicker.platform.pickFiles();
+    print(FilePicker.platform);
     if (result != null && mounted && isVideo(result.files.single.path!)) {
       setState(() {
         filePath = result.files.single.path!;
@@ -85,6 +88,8 @@ class _VideoPlayerScreenState extends State<VideoPlayerScreen> {
         showControls: true,
       );
     } else {}
+        pickerActive = false;
+
   }
 
   void clearVideoURL() {
@@ -154,7 +159,7 @@ class _VideoPlayerScreenState extends State<VideoPlayerScreen> {
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   ElevatedButton(
-                    onPressed: setVideoPath,
+                    onPressed: !pickerActive ? setVideoPath : null,
                     child: Text("Select video"),
                   ),
                   SizedBox(width: 50),

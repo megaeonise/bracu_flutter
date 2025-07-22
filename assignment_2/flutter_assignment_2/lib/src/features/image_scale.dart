@@ -35,15 +35,19 @@ String url = '';
 String filePath = '';
 final imageUrlController = TextEditingController();
 String menuValue = 'Internet';
+bool pickerActive = false;
 
 class _ImageViewerState extends State<ImageViewer> {
   void setImageUrl() {
-    setState(() {
+    if (mounted && url!='') {
+        setState(() {
       url = imageUrlController.text;
     });
+    }
   }
 
   void setImagePath() async {
+    pickerActive = true;
     FilePickerResult? result = await FilePicker.platform.pickFiles();
     if (result != null && mounted && isImage(result.files.single.path!)) {
       isImage(result.files.single.path!);
@@ -51,6 +55,7 @@ class _ImageViewerState extends State<ImageViewer> {
         filePath = result.files.single.path!;
       });
     } else {}
+    pickerActive = false;
   }
 
   bool isImage(path) {
@@ -114,7 +119,7 @@ class _ImageViewerState extends State<ImageViewer> {
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               ElevatedButton(
-                onPressed: setImagePath,
+                onPressed: !pickerActive ? setImagePath : null,
                 child: Text("Select image"),
               ),
               SizedBox(width: 50),

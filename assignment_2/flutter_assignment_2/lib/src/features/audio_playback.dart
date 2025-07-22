@@ -23,7 +23,7 @@ class _AudioPlaybackState extends State<AudioPlayback> with WidgetsBindingObserv
   final player = AudioPlayer();
   final audioUrlController = TextEditingController();
   String filePath = '';
-
+  bool pickerActive = false;
   var url = '';
   String menuValue = 'Internet';
 
@@ -52,7 +52,7 @@ class _AudioPlaybackState extends State<AudioPlayback> with WidgetsBindingObserv
   }
 
   void setAudioURL() async{
-    if (mounted) {
+    if (mounted && url!='') {
       setState(()  {
         url = audioUrlController.text;
       });
@@ -60,7 +60,8 @@ class _AudioPlaybackState extends State<AudioPlayback> with WidgetsBindingObserv
     }
   }
 
-    Future<void> initUrl() async {    final session = await AudioSession.instance;
+    Future<void> initUrl() async {    
+    final session = await AudioSession.instance;
     await session.configure(const AudioSessionConfiguration.speech());
     try {
       await player.setAudioSource(AudioSource.uri(Uri.parse(
@@ -70,6 +71,7 @@ class _AudioPlaybackState extends State<AudioPlayback> with WidgetsBindingObserv
     }}
 
   void setAudioPath() async {
+    pickerActive = true;
     FilePickerResult? result = await FilePicker.platform.pickFiles();
     if (result != null && mounted && isAudio(result.files.single.path!)) {
       setState(()  {
@@ -77,6 +79,7 @@ class _AudioPlaybackState extends State<AudioPlayback> with WidgetsBindingObserv
       });
       await initPath();
     } else {}
+    pickerActive = false;
   }
 
       Future<void> initPath() async {        final session = await AudioSession.instance;
@@ -177,7 +180,7 @@ class _AudioPlaybackState extends State<AudioPlayback> with WidgetsBindingObserv
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   ElevatedButton(
-                    onPressed: setAudioPath,
+                    onPressed: !pickerActive ? setAudioPath : null,
                     child: Text("Select audio"),
                   ),
                   SizedBox(width: 50),
