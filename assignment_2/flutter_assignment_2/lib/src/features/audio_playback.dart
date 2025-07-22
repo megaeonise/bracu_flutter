@@ -52,7 +52,7 @@ class _AudioPlaybackState extends State<AudioPlayback> with WidgetsBindingObserv
   }
 
   void setAudioURL() async{
-    if (mounted && url!='') {
+    if (mounted && audioUrlController.text!='') {
       setState(()  {
         url = audioUrlController.text;
       });

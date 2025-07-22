@@ -39,8 +39,9 @@ bool pickerActive = false;
 
 class _ImageViewerState extends State<ImageViewer> {
   void setImageUrl() {
-    if (mounted && url!='') {
-        setState(() {
+    print(imageUrlController.text);
+    if (mounted && imageUrlController.text!='') {
+      setState(() {
       url = imageUrlController.text;
     });
     }

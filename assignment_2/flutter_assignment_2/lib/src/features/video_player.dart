@@ -48,7 +48,7 @@ class _VideoPlayerScreenState extends State<VideoPlayerScreen> {
   }
 
   void setVideoURL() {
-    if (mounted && url!='') {
+    if (mounted && videoUrlController.text!='') {
       setState(() {
         url = videoUrlController.text;
         controller = VideoPlayerController.networkUrl(
@@ -72,7 +72,6 @@ class _VideoPlayerScreenState extends State<VideoPlayerScreen> {
   void setVideoPath() async {
     pickerActive = true;
     FilePickerResult? result = await FilePicker.platform.pickFiles();
-    print(FilePicker.platform);
     if (result != null && mounted && isVideo(result.files.single.path!)) {
       setState(() {
         filePath = result.files.single.path!;
